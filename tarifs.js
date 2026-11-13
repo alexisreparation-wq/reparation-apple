@@ -1,5 +1,397 @@
 const repairPrices = {iphone:[['Écran','à partir de 30 €'],['Batterie','à partir de 30 €'],['Dos en verre','à partir de 45 €'],['Connecteur de charge','à partir de 60 €'],['Appareil photo','à partir de 25 €'],['Haut-parleur','à partir de 25 €'],['Carte mère','sur devis'],['Châssis complet','sur devis']],ipad:[['Vitre tactile','à partir de 35 €'],['Écran complet','à partir de 65 €'],['Batterie','à partir de 55 €'],['Connecteur de charge','à partir de 45 €']],macbook:[['Toutes réparations','sur devis'],['Écran','sur devis'],['Batterie','sur devis'],['Clavier / trackpad','sur devis'],['Carte mère','sur devis']]};
 
+// Prix fournis par le propriétaire dans CasePhone_prix_reparation_iPhone.pdf (13 novembre 2026).
+const iphonePricesByModel = {
+  "iPhone X": {
+    "Écran compatible": 45,
+    "Batterie": 35,
+    "Dos en verre": 50,
+    "Boutons power / latéraux": 50,
+    "Connecteur de charge": 50,
+    "Écouteur interne": 30,
+    "Caméra avant": 60,
+    "Caméra arrière": 60,
+    "Vibreur": 40
+  },
+  "iPhone XS": {
+    "Écran compatible": 55,
+    "Batterie": 35,
+    "Dos en verre": 70,
+    "Boutons power / latéraux": 50,
+    "Connecteur de charge": 50,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 60,
+    "Vibreur": 50
+  },
+  "iPhone XS Max": {
+    "Écran compatible": 60,
+    "Batterie": 35,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 50,
+    "Connecteur de charge": 60,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 70,
+    "Vibreur": 50
+  },
+  "iPhone XR": {
+    "Écran compatible": 60,
+    "Batterie": 35,
+    "Dos en verre": 50,
+    "Boutons power / latéraux": 50,
+    "Connecteur de charge": 60,
+    "Écouteur interne": 30,
+    "Caméra avant": 60,
+    "Caméra arrière": 60,
+    "Vibreur": 40
+  },
+  "iPhone 11": {
+    "Écran compatible": 70,
+    "Batterie": 35,
+    "Dos en verre": 70,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 60,
+    "Vibreur": 50
+  },
+  "iPhone 11 Pro": {
+    "Écran compatible": 70,
+    "Batterie": 35,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 70,
+    "Vibreur": 50
+  },
+  "iPhone 11 Pro Max": {
+    "Écran compatible": 70,
+    "Batterie": 35,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 80,
+    "Connecteur de charge": 60,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 70,
+    "Vibreur": 50
+  },
+  "iPhone 12 mini": {
+    "Écran": 90,
+    "Batterie": 35,
+    "Dos en verre": 70,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Écouteur interne": 30,
+    "Caméra avant": 60,
+    "Caméra arrière": 60,
+    "Vibreur": 50
+  },
+  "iPhone 12": {
+    "Écran": 100,
+    "Batterie": 35,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 60,
+    "Vibreur": 50
+  },
+  "iPhone 12 Pro": {
+    "Écran": 100,
+    "Batterie": 35,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 80,
+    "Vibreur": 50
+  },
+  "iPhone 12 Pro Max": {
+    "Écran": 100,
+    "Batterie": 35,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 80,
+    "Vibreur": 50
+  },
+  "iPhone 13 mini": {
+    "Écran": 110,
+    "Batterie": 35,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Grille écouteur interne": 110,
+    "Écouteur interne": 30,
+    "Caméra avant": 60,
+    "Caméra arrière": 70,
+    "Vibreur": 50
+  },
+  "iPhone 13": {
+    "Écran": 110,
+    "Batterie": 35,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Grille écouteur interne": 120,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 70,
+    "Vibreur": 50
+  },
+  "iPhone 13 Pro": {
+    "Écran": 110,
+    "Batterie": 45,
+    "Dos en verre": 100,
+    "Boutons power / latéraux": 80,
+    "Connecteur de charge": 80,
+    "Grille écouteur interne": 140,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 120,
+    "Vibreur": 50
+  },
+  "iPhone 13 Pro Max": {
+    "Écran": 120,
+    "Batterie": 45,
+    "Dos en verre": 100,
+    "Boutons power / latéraux": 80,
+    "Connecteur de charge": 80,
+    "Grille écouteur interne": 160,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 120,
+    "Vibreur": 50
+  },
+  "iPhone 14": {
+    "Écran": 110,
+    "Batterie": 45,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Grille écouteur interne": 120,
+    "Écouteur interne": 30,
+    "Caméra avant": 60,
+    "Caméra arrière": 70,
+    "Vibreur": 50
+  },
+  "iPhone 14 Plus": {
+    "Écran": 120,
+    "Batterie": 45,
+    "Dos en verre": 80,
+    "Boutons power / latéraux": 60,
+    "Connecteur de charge": 60,
+    "Grille écouteur interne": 150,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 70,
+    "Vibreur": 50
+  },
+  "iPhone 14 Pro": {
+    "Écran": 130,
+    "Batterie": 45,
+    "Dos en verre": 100,
+    "Boutons power / latéraux": 80,
+    "Connecteur de charge": 80,
+    "Grille écouteur interne": 160,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 120,
+    "Vibreur": 50
+  },
+  "iPhone 14 Pro Max": {
+    "Écran": 140,
+    "Batterie": 45,
+    "Dos en verre": 100,
+    "Boutons power / latéraux": 80,
+    "Connecteur de charge": 80,
+    "Grille écouteur interne": 200,
+    "Écouteur interne": 40,
+    "Caméra avant": 60,
+    "Caméra arrière": 120,
+    "Vibreur": 50
+  },
+  "iPhone 15": {
+    "Écran Soft OLED": 110,
+    "Écran Hard OLED": 90,
+    "Écran Incell": 50,
+    "Batterie": 70,
+    "Dos en verre": 70,
+    "Boutons power / latéraux": 80,
+    "Connecteur de charge": 80,
+    "Écouteur interne": 30,
+    "Caméra avant": 80,
+    "Caméra arrière": 80,
+    "Vibreur": 50
+  },
+  "iPhone 15 Plus": {
+    "Écran Soft OLED": 120,
+    "Écran Hard OLED": 105,
+    "Écran Incell": 60,
+    "Batterie": 75,
+    "Dos en verre": 75,
+    "Boutons power / latéraux": 80,
+    "Connecteur de charge": 80,
+    "Écouteur interne": 30,
+    "Caméra avant": 80,
+    "Caméra arrière": 80,
+    "Vibreur": 50
+  },
+  "iPhone 15 Pro": {
+    "Écran Soft OLED": 140,
+    "Écran Hard OLED": 115,
+    "Écran Incell": 75,
+    "Batterie": 85,
+    "Dos en verre": 90,
+    "Boutons power / latéraux": 100,
+    "Connecteur de charge": 100,
+    "Écouteur interne": 40,
+    "Caméra avant": 90,
+    "Caméra arrière": 150,
+    "Vibreur": 50
+  },
+  "iPhone 15 Pro Max": {
+    "Écran Soft OLED": 160,
+    "Écran Hard OLED": 130,
+    "Écran Incell": 85,
+    "Batterie": 90,
+    "Dos en verre": 95,
+    "Boutons power / latéraux": 100,
+    "Connecteur de charge": 100,
+    "Écouteur interne": 40,
+    "Caméra avant": 90,
+    "Caméra arrière": 160,
+    "Vibreur": 50
+  },
+  "iPhone 16": {
+    "Écran Soft OLED": 130,
+    "Écran Hard OLED": 100,
+    "Écran Incell": 50,
+    "Batterie": 75,
+    "Dos en verre": 90,
+    "Boutons power / latéraux": 90,
+    "Connecteur de charge": 90,
+    "Écouteur interne": 60,
+    "Caméra avant": 60,
+    "Caméra arrière": 90,
+    "Vibreur": 50
+  },
+  "iPhone 16 Plus": {
+    "Écran Soft OLED": 140,
+    "Écran Hard OLED": 110,
+    "Écran Incell": 60,
+    "Batterie": 80,
+    "Dos en verre": 95,
+    "Boutons power / latéraux": 90,
+    "Connecteur de charge": 90,
+    "Écouteur interne": 60,
+    "Caméra avant": 60,
+    "Caméra arrière": 90,
+    "Vibreur": 50
+  },
+  "iPhone 16 Pro": {
+    "Écran Soft OLED": 165,
+    "Écran Hard OLED": 125,
+    "Écran Incell": 75,
+    "Batterie": 85,
+    "Dos en verre": 110,
+    "Boutons power / latéraux": 110,
+    "Connecteur de charge": 110,
+    "Écouteur interne": 80,
+    "Caméra avant": 60,
+    "Caméra arrière": 150,
+    "Vibreur": 50
+  },
+  "iPhone 16 Pro Max": {
+    "Écran Soft OLED": 175,
+    "Écran Hard OLED": 145,
+    "Écran Incell": 85,
+    "Batterie": 90,
+    "Dos en verre": 115,
+    "Boutons power / latéraux": 110,
+    "Connecteur de charge": 110,
+    "Écouteur interne": 80,
+    "Caméra avant": 60,
+    "Caméra arrière": 150,
+    "Vibreur": 50
+  },
+  "iPhone 17": {
+    "Écran Soft OLED": 140,
+    "Écran Hard OLED": 105,
+    "Écran Incell": 55,
+    "Batterie haute capacité": 80,
+    "Dos en verre": 95,
+    "Boutons power / latéraux": 90,
+    "Connecteur de charge": 90,
+    "Écouteur interne": 60,
+    "Caméra avant": 60,
+    "Caméra arrière": 90,
+    "Vibreur": 50
+  },
+  "iPhone Air": {
+    "Écran Soft OLED": 165,
+    "Écran Hard OLED": 115,
+    "Écran Incell": 65,
+    "Batterie haute capacité": 120,
+    "Dos en verre": 90,
+    "Boutons power / latéraux": 90,
+    "Connecteur de charge": 90,
+    "Écouteur interne": 60,
+    "Caméra avant": 60,
+    "Caméra arrière": 85,
+    "Vibreur": 50
+  },
+  "iPhone 17 Pro": {
+    "Écran Soft OLED": 165,
+    "Écran Hard OLED": 130,
+    "Écran Incell": 80,
+    "Batterie haute capacité": 90,
+    "Dos en verre": 85,
+    "Boutons power / latéraux": 110,
+    "Connecteur de charge": 110,
+    "Écouteur interne": 80,
+    "Caméra avant": 60,
+    "Caméra arrière": 150,
+    "Vibreur": 50
+  },
+  "iPhone 17 Pro Max": {
+    "Écran Soft OLED": 180,
+    "Écran Hard OLED": 150,
+    "Écran Incell": 90,
+    "Batterie haute capacité": 100,
+    "Dos en verre": 85,
+    "Boutons power / latéraux": 110,
+    "Connecteur de charge": 110,
+    "Écouteur interne": 80,
+    "Caméra avant": 60,
+    "Caméra arrière": 150,
+    "Vibreur": 50
+  }
+};
+
+function iphoneRepairGroups(model) {
+ const specific=iphonePricesByModel[model];
+ if(!specific)return null;
+ const popular=[],other=[],additional=[];
+ Object.entries(specific).forEach(([repair,amount])=>{
+  const entry=[repair,amount+' €'];
+  if(repair.startsWith('Écran')||repair.startsWith('Batterie')||repair==='Dos en verre')popular.push(entry);
+  else if(repair==='Vibreur'||repair==='Grille écouteur interne')additional.push(entry);
+  else other.push(entry);
+ });
+ // Conserver les prestations existantes dont le PDF ne précise pas le tarif.
+ additional.push(...repairPrices.iphone.filter(([repair])=>['Haut-parleur','Carte mère','Châssis complet'].includes(repair)));
+ return [popular,other,additional];
+}
+
 // Modèles vérifiés sur les fiches d’identification Apple, novembre 2026.
 // iPad : support.apple.com/108043 ; MacBook : support.apple.com/108052 et /102869.
 const iphoneSeries = [
@@ -120,11 +512,11 @@ function showRepairs(modelIndex){
  if(activeCategory==='macbook'){
   cards=priceCard('Interventions',[['Toutes les réparations','sur devis']],true,model);
  }else{
-  const entries=repairPrices[activeCategory],groups=[entries.slice(0,3),entries.slice(3,6),entries.slice(6)];
+  const entries=repairPrices[activeCategory],groups=(activeCategory==='iphone'&&iphoneRepairGroups(model))||[entries.slice(0,3),entries.slice(3,6),entries.slice(6)];
   cards=groups.map((group,index)=>group.length?priceCard(['Populaire','Autres interventions','Réparations complémentaires'][index],group,index===0,model):'').join('');
  }
  const query='?appareil='+encodeURIComponent(catalogue.name)+'&modele='+encodeURIComponent(model);
- priceGrid.innerHTML=catalogueShell(model,activeCategory==='macbook'?'Toute intervention fait l’objet d’un devis avant réparation.':'Prix de départ indicatifs, à confirmer pour ce modèle avant l’intervention.',
+ priceGrid.innerHTML=catalogueShell(model,activeCategory==='macbook'?'Toute intervention fait l’objet d’un devis avant réparation.':activeCategory==='iphone'&&iphonePricesByModel[model]?'Tarifs pour ce modèle. Le devis final est validé avec vous avant toute intervention.':'Prix de départ indicatifs, à confirmer pour ce modèle avant l’intervention.',
  '<button type="button" class="catalogue-back" data-back="models">← '+family.label+'</button>',
  '<div class="price-grid">'+cards+'</div><div class="catalogue-actions"><a class="button book-model" href="rendez-vous.html'+query+'">Prendre rendez-vous pour cet appareil →</a></div>');
  focusCatalogue();
