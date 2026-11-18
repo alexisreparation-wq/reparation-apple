@@ -1,27 +1,17 @@
-function prepareRepairEmail(formData, requestType) {
-  const value = (key) => String(formData.get(key) || '').trim();
-  const fullName = [value('prenom'), value('nom')].filter(Boolean).join(' ');
-  const subject = 'Réparation — ' + fullName;
-  const body = [
-    'Nouvelle demande de réparation',
-    '',
-    'Type de demande : ' + requestType,
-    'Nom : ' + value('nom'),
-    'Prénom : ' + value('prenom'),
-    'Téléphone : ' + value('telephone'),
-    'E-mail : ' + value('email'),
-    'Appareil : ' + value('appareil'),
-    'Modèle : ' + value('modele'),
-    'Réparation souhaitée : ' + value('reparation'),
-    ...(value('date') ? ['Date souhaitée : ' + value('date')] : []),
-    ...(value('heure') ? ['Heure souhaitée : ' + value('heure')] : []),
-    '',
-    'Précisions :',
-    value('message') || 'Aucune précision supplémentaire.',
-    '',
-    'Merci.'
-  ].join('\r\n');
-  return 'mailto:alexisreparation@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+const maxPhotoCount = 6;
+const maxPhotoBytes = 10_000_000;
+const photoTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
+
+function photoError(files) {
+  if (files.length > maxPhotoCount) return 'Vous pouvez joindre jusqu’à 6 photos.';
+  if (files.some((file) => file.size === 0)) return 'Une des photos est vide. Sélectionnez-la de nouveau.';
+  if (files.some((file) => file.type ? !photoTypes.includes(file.type) : !/\.(jpe?g|png|webp|heic|heif)$/i.test(file.name))) {
+    return 'Choisissez des photos JPG, PNG, WebP ou HEIC.';
+  }
+  if (files.reduce((bytes, file) => bytes + file.size, 0) > maxPhotoBytes) {
+    return 'Les photos doivent peser au total 10 Mo ou moins.';
+  }
+  return '';
 }
 
 document.querySelectorAll('[data-repair-form]').forEach((form) => {
@@ -29,14 +19,29 @@ document.querySelectorAll('[data-repair-form]').forEach((form) => {
   const requestedDevice = params.get('appareil');
   const requestedModel = params.get('modele');
   if (['iPhone', 'iPad', 'MacBook'].includes(requestedDevice) && requestedModel) {
-    form.querySelector('[name="appareil"]').value = requestedDevice;
-    form.querySelector('[name="modele"]').value = requestedModel.slice(0, 150);
+    form.elements.appareil.value = requestedDevice;
+    form.elements.modele.value = requestedModel.slice(0, 150);
   }
+
+  const photos = form.elements.photos;
+  const validatePhotos = () => {
+    photos.setCustomValidity(photoError(Array.from(photos.files)));
+    return photos.reportValidity();
+  };
+  photos.addEventListener('change', validatePhotos);
   form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    if (!form.reportValidity()) return;
-    const emailLink = prepareRepairEmail(new FormData(form), form.dataset.request);
-    window.location.href = emailLink;
-    form.querySelector('.form-status').textContent = 'Votre e-mail est préparé. Vérifiez-le dans votre application e-mail puis cliquez sur Envoyer. Si aucune application ne s’ouvre, contactez-nous directement à alexisreparation@gmail.com.';
+    if (!validatePhotos()) event.preventDefault();
   });
+
+  form.addEventListener('formdata', ({ formData }) => {
+    const firstName = formData.get('prenom').trim();
+    const lastName = formData.get('nom').trim();
+    formData.set('_subject', ('Réparation — ' + firstName + ' ' + lastName).replace(/[\r\n]+/g, ' ').trim());
+    // FormSubmit expects a separate field name for each attachment.
+    const attachments = formData.getAll('photos').filter((file) => file.size > 0);
+    formData.delete('photos');
+    attachments.forEach((file, index) => formData.append('photo-' + (index + 1), file));
+  });
+
+  form.querySelector('button[type="submit"]').disabled = false;
 });

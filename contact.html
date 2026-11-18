@@ -1,7 +1,10 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Alexis Réparation — iPhone, iPad et MacBook. Contact : 0489 43 10 75. Disponible 24h/24, 7j/7."><title>Contact — Alexis Réparation</title><link rel="stylesheet" href="style.css"></head><body>
 <header class="shell topbar"><a class="logo" href="index.html" aria-label="Alexis Réparation, accueil">ALEXIS<b>RÉPARATION</b></a><nav class="site-nav" aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="tarifs.html">Tarifs</a><a href="estimation.html">Estimation de reprise</a><a href="contact.html" aria-current="page">Contact</a><a href="rendez-vous.html">Rendez-vous</a></nav><a class="header-logo" href="index.html" aria-label="Alexis Réparation, accueil"><img src="logo-entete.svg" alt="Logo Alexis Réparation" width="86" height="90"></a></header>
-<main><div class="shell"><header class="form-heading"><div class="number">Une question · Prise de contact</div><h1 class="page-title">Prenons contact.</h1><p>Décrivez votre appareil et votre besoin pour préparer une demande complète par e-mail.</p></header><div class="form-layout"><aside class="contact-aside"><h2>Parlons de votre appareil.</h2><div class="info"><small>TÉLÉPHONE</small><a href="tel:+32489431075">0489 43 10 75</a></div><div class="info"><small>E-MAIL</small><a href="mailto:alexisreparation@gmail.com">alexisreparation@gmail.com</a></div><div class="info"><small>DISPONIBILITÉ</small>24h/24 · 7j/7</div><p>Le tarif et le délai sont confirmés avec vous avant l’intervention.</p></aside><form class="repair-form" data-repair-form data-request="Contact">
+<main><div class="shell"><header class="form-heading"><div class="number">Une question · Prise de contact</div><h1 class="page-title">Prenons contact.</h1><p>Décrivez votre appareil et votre besoin pour envoyer votre demande de réparation.</p></header><div class="form-layout"><aside class="contact-aside"><h2>Parlons de votre appareil.</h2><div class="info"><small>TÉLÉPHONE</small><a href="tel:+32489431075">0489 43 10 75</a></div><div class="info"><small>E-MAIL</small><a href="mailto:alexisreparation@gmail.com">alexisreparation@gmail.com</a></div><div class="info"><small>DISPONIBILITÉ</small>24h/24 · 7j/7</div><p>Le tarif et le délai sont confirmés avec vous avant l’intervention.</p></aside><form class="repair-form" data-repair-form method="post" enctype="multipart/form-data" action="https://formsubmit.co/alexisreparation@gmail.com">
+<input type="hidden" name="_url" value="https://alexisreparation-wq.github.io/reparation-apple/contact.html">
+<input type="hidden" name="_template" value="table">
+<input type="hidden" name="Type de demande" value="Contact">
 <div class="form-fields">
 <div class="field"><label for="nom">Nom *</label><input id="nom" name="nom" autocomplete="family-name" maxlength="100" required></div>
 <div class="field"><label for="prenom">Prénom *</label><input id="prenom" name="prenom" autocomplete="given-name" maxlength="100" required></div>
@@ -11,11 +14,13 @@
 <div class="field"><label for="modele">Modèle exact *</label><input id="modele" name="modele" placeholder="Ex. iPhone 13 ou MacBook Air M1" maxlength="150" required></div>
 <div class="field wide"><label for="reparation">Réparation souhaitée *</label><select id="reparation" name="reparation" required><option value="">Choisissez la réparation</option><option>Écran / vitre tactile</option><option>Batterie</option><option>Connecteur de charge</option><option>Dos en verre</option><option>Appareil photo</option><option>Haut-parleur</option><option>Carte mère</option><option>Châssis complet</option><option>Autre réparation / diagnostic</option></select></div>
 
-<div class="field wide"><label for="message">Précisions sur le problème</label><textarea id="message" name="message" maxlength="3000" placeholder="Décrivez la panne et toute information utile…"></textarea></div></div>
-<button class="button" type="submit">Préparer mon e-mail →</button>
-<p class="form-note">Votre application e-mail s’ouvrira avec le message déjà rempli. Cliquez ensuite sur « Envoyer » pour transmettre la demande à Alexis Réparation.</p>
-<p class="form-status" role="status" aria-live="polite"></p>
+<div class="field wide"><label for="message">Précisions sur le problème</label><textarea id="message" name="message" maxlength="3000" placeholder="Décrivez la panne et toute information utile…"></textarea></div>
+<div class="field wide"><label for="photos">Photos de l’appareil (facultatif)</label><input id="photos" name="photos" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" aria-describedby="photos-hint">
+<small id="photos-hint" class="form-note">Jusqu’à 6 photos (JPG, PNG, WebP ou HEIC), 10 Mo au total.</small></div>
+</div>
+<button class="button" type="submit" disabled>Envoyer ma demande →</button>
+<p class="form-note">Votre demande et vos photos sont transmises à Alexis Réparation via FormSubmit.</p>
 <noscript><p>Pour nous contacter, écrivez à <a href="mailto:alexisreparation@gmail.com">alexisreparation@gmail.com</a> ou appelez le 0489 43 10 75.</p></noscript></form></div></div></main>
 <footer class="site-footer"><div class="shell"><span>© 2026 Alexis Réparation · Réparation Apple indépendante</span><a href="contact.html">Contact · 24h/24, 7j/7</a></div></footer>
-<script src="contact.js" defer></script>
+<script src="contact.js?v=2" defer></script>
 </body></html>
