@@ -102,14 +102,6 @@ a.contact-card:focus-visible {
   .contact-details { grid-template-columns: minmax(0, 1fr); }
 }
 
-.pricing .pill[data-category] {
-  border-color: var(--acid);
-}
-.pricing .pill[data-category]:focus-visible {
-  outline: 2px solid var(--acid);
-  outline-offset: 3px;
-}
-
 .repair-form{padding:30px;background:#141414;border:1px solid #555}
 .form-fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field label{margin:0 0 8px;font-size:11px;line-height:1.6}.field.wide{grid-column:1/-1}
 input,textarea,.repair-form select{box-sizing:border-box;width:100%;padding:13px;background:#0b0b0b;color:#f3f0e9;border:1px solid #666;border-radius:0;font:inherit}
@@ -132,8 +124,12 @@ textarea{min-height:115px;resize:vertical}input:focus,textarea:focus,select:focu
 .catalogue-heading h2:focus{outline:none}.catalogue-heading h2:focus-visible{outline:2px solid var(--acid);outline-offset:6px}
 .catalogue-heading p{color:#bbb8b0;line-height:1.6;margin:9px 0 0;font-size:14px}
 .model-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
-.model-tile{display:flex;align-items:center;gap:14px;min-width:0;min-height:112px;padding:18px;background:#1c1c1c;color:#f3f0e9;border:1px solid #515151;border-radius:16px;text-align:left;font:inherit;cursor:pointer;transition:background .18s,border-color .18s,transform .18s}
-.model-tile:hover{border-color:var(--acid);background:#252b18;transform:translateY(-3px)}
+.model-tile{display:flex;align-items:center;gap:14px;min-width:0;min-height:112px;padding:18px;background:#1c1c1c;color:#f3f0e9;border:1px solid var(--acid);border-radius:16px;text-align:left;font:inherit;cursor:pointer;transition:background .18s,transform .18s,box-shadow .18s}
+.model-tile:hover {
+  background: #252b18;
+  transform: translateY(-3px);
+  box-shadow: -6px 0 18px -8px var(--acid), 6px 0 18px -8px var(--acid);
+}
 .model-tile:focus-visible,.catalogue-back:focus-visible{outline:2px solid var(--acid);outline-offset:4px}
 .model-thumbnail{flex:0 0 45px;height:68px;display:flex;justify-content:center;align-items:center}
 .model-thumbnail img{display:block;width:45px;height:68px;object-fit:contain}
