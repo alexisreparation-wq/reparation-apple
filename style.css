@@ -41,6 +41,75 @@ body{margin:0;color-scheme:dark;font-family:"DM Sans",system-ui,sans-serif}
 .form-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:45px;padding-bottom:70px;align-items:start}
 .contact-aside{padding:25px;background:#141414;border:1px solid #444;min-width:0}.contact-aside h2{font-family:"Playfair Display",Georgia,serif;font-size:32px;margin:0 0 20px}
 .contact-aside a{overflow-wrap:anywhere}.contact-aside p{color:#bbb8b0;line-height:1.6}
+
+.contact-page {
+  max-width: 1050px;
+  padding-bottom: clamp(48px, 8vw, 96px);
+}
+.contact-page .form-heading {
+  padding-top: clamp(48px, 8vw, 96px);
+}
+.contact-page .form-heading p {
+  font-size: 17px;
+  margin: 16px 0 0;
+}
+.contact-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 16px;
+}
+.contact-card {
+  display: grid;
+  align-content: center;
+  gap: 14px;
+  padding: clamp(18px, 2.5vw, 28px);
+  border: 1px solid #454545;
+  border-radius: 14px;
+  background: #161616;
+}
+a.contact-card:hover {
+  border-color: var(--acid);
+  background: #1b2114;
+}
+a.contact-card:focus-visible {
+  outline: 2px solid var(--acid);
+  outline-offset: 3px;
+}
+.contact-card-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  color: #c9c6bf;
+  font: 12px "DM Mono", monospace;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.contact-card-label span {
+  color: var(--acid);
+  font-size: 16px;
+}
+.contact-card-value {
+  overflow-wrap: anywhere;
+  font-size: clamp(16px, 1.8vw, 22px);
+}
+.contact-card-hours {
+  background: #1b2114;
+  border-color: #65753a;
+  color: var(--acid);
+}
+@media (max-width: 760px) {
+  .contact-details { grid-template-columns: minmax(0, 1fr); }
+}
+
+.pricing .pill[data-category] {
+  border-color: var(--acid);
+}
+.pricing .pill[data-category]:focus-visible {
+  outline: 2px solid var(--acid);
+  outline-offset: 3px;
+}
+
 .repair-form{padding:30px;background:#141414;border:1px solid #555}
 .form-fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field label{margin:0 0 8px;font-size:11px;line-height:1.6}.field.wide{grid-column:1/-1}
 input,textarea,.repair-form select{box-sizing:border-box;width:100%;padding:13px;background:#0b0b0b;color:#f3f0e9;border:1px solid #666;border-radius:0;font:inherit}
