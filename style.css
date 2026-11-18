@@ -79,3 +79,31 @@ textarea{min-height:115px;resize:vertical}input:focus,textarea:focus,select:focu
 @media(max-width:800px){.model-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:490px){.model-grid{grid-template-columns:1fr;gap:12px}.model-tile{min-height:95px}.model-label{font-size:18px}.catalogue-heading h2{font-size:23px}}
 @media(max-width:850px){.topbar{grid-template-columns:1fr 1fr;gap:12px}.topbar>.logo{grid-column:1}.header-logo{grid-column:2}.topbar>.site-nav{grid-column:1/-1;grid-row:2;justify-content:center}.header-logo img{width:70px;height:74px}}
+
+/* Estimation de reprise */
+.trade-section{padding:85px 0 100px;min-height:70vh}
+.trade-layout{display:grid;grid-template-columns:1fr 1fr;gap:65px;align-items:start}
+.trade-intro h1{margin-top:20px}.trade-intro h1 em{color:var(--acid);font-weight:600}
+.trade-intro>p{max-width:510px;line-height:1.7;color:#bbb8b0;font-size:16px}
+.trade-intro .trade-range{display:inline-block;color:var(--acid);font-family:"DM Mono",monospace;font-size:13px;border:1px solid #454545;border-radius:99px;padding:8px 15px}
+.trade-intro .trade-caption{font-size:13px;max-width:430px}
+.trade-form{padding:30px;background:#151515;border:1px solid #555;min-width:0}
+.trade-form>label{margin-top:0}.trade-form select{font-size:16px}
+.trade-states{border:0;padding:0;margin:30px 0 0;min-width:0}
+.trade-states legend{font-family:"DM Mono",monospace;text-transform:uppercase;font-size:11px;letter-spacing:.04em;margin-bottom:14px}
+.trade-state-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.trade-state{display:flex;align-items:center;gap:11px;margin:0;padding:16px 12px;background:#0b0b0b;border:1px solid #555;cursor:pointer;text-transform:none;font-family:inherit;letter-spacing:normal}
+.trade-state input{width:17px;height:17px;flex-shrink:0;accent-color:var(--acid);padding:0}
+.trade-state strong{display:block;font-size:14px}.trade-state small{display:block;margin-top:5px;color:#aaa69f;line-height:1.5;font-size:11px}
+.trade-state:has(input:checked){background:#242b15;border-color:var(--acid)}.trade-state:has(input:checked) strong{color:var(--acid)}
+.trade-state:focus-within{outline:2px solid var(--acid);outline-offset:3px}
+.trade-prompt{font-size:13px;color:#bbb8b0;line-height:1.6;margin:24px 0 0}
+.trade-result{display:flex;flex-direction:column;gap:9px;background:var(--acid);color:#111;padding:24px;margin-top:25px}
+.trade-result-label{font-family:"DM Mono",monospace;font-size:10px;text-transform:uppercase}
+.trade-result>strong{font-size:56px;letter-spacing:-.06em;line-height:1.1}
+.trade-result>span:not(.trade-result-label){font-weight:700;font-size:14px}.trade-result>small{font-size:11px;line-height:1.6}
+.trade-contact{display:flex;justify-content:center;text-align:center;margin-top:16px;font-size:13px;line-height:1.5}
+.trade-result[hidden],.trade-contact[hidden],.trade-prompt[hidden]{display:none}
+@media(max-width:1000px){.trade-layout{gap:35px}}
+@media(max-width:760px){.trade-section{padding:55px 0 65px}.trade-layout{grid-template-columns:1fr}.trade-form{padding:22px}}
+@media(max-width:380px){.trade-state-grid{grid-template-columns:1fr}}
