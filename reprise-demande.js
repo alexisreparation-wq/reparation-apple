@@ -4,6 +4,7 @@ const buybackPhotoAngles = [
 ];
 const buybackMaxPhotoSize=10*1024*1024;
 const buybackMaxTotalSize=15*1024*1024;
+const buybackRecipient = 'alexisreparation@gmail.com';
 function getBuybackSelection(params){
  const family=params.get('famille'),model=params.get('modele'),state=params.get('etat');
  if(!(tradeFamilies[family]||[]).includes(model))return null;
@@ -18,7 +19,11 @@ function validateBuybackPhoto(file){
  if(file.size>buybackMaxPhotoSize)return 'Cette photo dépasse 10 Mo. Choisissez une version plus légère.';
  return '';
 }
-function buildBuybackBody(details,selection){
+function buildBuybackSubject(details, selection) {
+ const fullName = `${details.prenom} ${details.nom}`.replace(/[\r\n]+/g, ' ').trim();
+ return `Reprise — ${selection.model} — ${fullName}`;
+}
+function buildBuybackBody(details,selection,photosAttached){
  return [
  'DEMANDE DE REPRISE IPHONE','',
  'Nom : '+details.nom,'Prénom : '+details.prenom,
@@ -30,8 +35,13 @@ function buildBuybackBody(details,selection){
  ...(details.repare==='Oui'?['Réparations précédentes : '+(details.reparations||'Non précisées')]:[]),
  '','Estimation de reprise : '+selection.price+' €',
  'Montant indicatif à confirmer après vérification.',
- '','Pièces jointes : écran, côté droit, côté gauche, haut, bas et arrière.',''
+ '',(photosAttached?'Photos jointes':'Photos à joindre')+' : écran, côté droit, côté gauche, haut, bas et arrière.',''
  ].join('\r\n');
+}
+function makeBuybackMailto(details, selection) {
+ const subject = encodeURIComponent(buildBuybackSubject(details, selection));
+ const body = encodeURIComponent(buildBuybackBody(details, selection, false));
+ return `mailto:${buybackRecipient}?subject=${subject}&body=${body}`;
 }
 function buybackBase64(bytes){
  let binary='';
@@ -51,14 +61,14 @@ function encodeBuybackHeader(value){
 async function makeBuybackEmail(details,selection,photos){
  const boundary='AlexisReprise_'+crypto.randomUUID().replaceAll('-','');
  const encoded=value=>buybackBase64(new TextEncoder().encode(value));
- const subject='Reprise — '+selection.model+' — '+details.prenom+' '+details.nom;
+ const subject = buildBuybackSubject(details, selection);
  const replyTo=details.email.replace(/[\r\n]/g,'');
  const lines=[
- 'To: alexisreparation@gmail.com','Reply-To: '+replyTo,
+ 'To: '+buybackRecipient,'Reply-To: '+replyTo,
  'Subject: '+encodeBuybackHeader(subject),'X-Unsent: 1','MIME-Version: 1.0',
  'Content-Type: multipart/mixed; boundary="'+boundary+'"','',
  '--'+boundary,'Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',
- foldBuybackBase64(encoded(buildBuybackBody(details,selection)))
+ foldBuybackBase64(encoded(buildBuybackBody(details,selection,true)))
  ];
  for(const photo of photos){
   const bytes=new Uint8Array(await photo.file.arrayBuffer());
@@ -80,10 +90,11 @@ function initBuybackForm(){
  document.getElementById('buybackSelection').textContent=selection.model+' · '+selection.condition;
  const offer=document.getElementById('buybackOffer'),error=document.getElementById('buybackError');
  const status=document.getElementById('buybackDownloadStatus'),download=document.getElementById('downloadBuybackEmail');
+ const openEmail = document.getElementById('openBuybackEmail');
  const battery=document.getElementById('buybackBattery'),unavailable=document.getElementById('batteryUnavailable');
  const repaired=document.getElementById('buybackRepaired');
  const previewUrls=new Map();
- function hideOffer(){offer.hidden=true;status.textContent='';}
+ function hideOffer(){offer.hidden=true;status.textContent='';openEmail.removeAttribute('href');}
  function displayError(message){error.textContent=message;error.hidden=!message;}
  function getPhotos(){
   return buybackPhotoAngles.map(([key,label])=>({key,label,file:document.getElementById('photo-'+key).files[0]}));
@@ -134,6 +145,7 @@ function initBuybackForm(){
   if(!details.nom||!details.prenom||!details.telephone||!details.email){displayError('Complétez vos coordonnées.');return;}
   document.getElementById('buybackAmount').textContent=new Intl.NumberFormat('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(selection.price);
   document.getElementById('buybackOfferSummary').textContent=selection.model+' · '+selection.condition+' · '+details.stockage;
+  openEmail.href = makeBuybackMailto(details, selection);
   offer.hidden=false;
   document.getElementById('offerHeading').focus();
   offer.scrollIntoView({behavior:'smooth',block:'start'});
