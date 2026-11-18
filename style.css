@@ -107,3 +107,5 @@ textarea{min-height:115px;resize:vertical}input:focus,textarea:focus,select:focu
 @media(max-width:1000px){.trade-layout{gap:35px}}
 @media(max-width:760px){.trade-section{padding:55px 0 65px}.trade-layout{grid-template-columns:1fr}.trade-form{padding:22px}}
 @media(max-width:380px){.trade-state-grid{grid-template-columns:1fr}}
+.trade-form>label[for="tradeModel"]{margin-top:24px}
+.trade-form select:disabled{opacity:.5;cursor:not-allowed}
