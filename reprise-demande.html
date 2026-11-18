@@ -4,14 +4,18 @@
 <main class="shell buyback-main"><div class="number">Votre demande de reprise</div><h1 class="page-title">Proposez votre <em>iPhone.</em></h1>
 <p class="buyback-selection" id="buybackSelection"></p><p>Complétez les informations et ajoutez les six photos. Votre prix de reprise apparaîtra à la fin.</p>
 <p id="buybackSelectionError" role="alert" hidden>La sélection de votre iPhone est incomplète. <a href="estimation.html">Revenir à l’estimation de reprise →</a></p>
-<form id="tradeSubmission" class="buyback-form" hidden>
+<form id="tradeSubmission" class="buyback-form" method="post" enctype="multipart/form-data" action="https://formsubmit.co/alexisreparation@gmail.com" hidden>
+<input type="hidden" name="_url" value="https://alexisreparation-wq.github.io/reparation-apple/reprise-demande.html">
+<input type="hidden" name="_template" value="table">
+<input type="hidden" name="_subject" id="buybackMailSubject">
+<input type="hidden" name="recapitulatif" id="buybackMailSummary">
 <fieldset class="buyback-panel"><legend>1 · Vos coordonnées</legend><div class="form-fields">
 <div class="field"><label for="buybackLastName">Nom *</label><input id="buybackLastName" name="nom" autocomplete="family-name" maxlength="100" required></div>
 <div class="field"><label for="buybackFirstName">Prénom *</label><input id="buybackFirstName" name="prenom" autocomplete="given-name" maxlength="100" required></div>
 <div class="field"><label for="buybackPhone">Téléphone *</label><input id="buybackPhone" name="telephone" type="tel" autocomplete="tel" maxlength="40" required></div>
 <div class="field"><label for="buybackEmail">Adresse e-mail *</label><input id="buybackEmail" name="email" type="email" autocomplete="email" maxlength="150" required></div>
 </div></fieldset>
-<fieldset class="buyback-panel"><legend>2 · Les six photos de votre iPhone</legend><p class="buyback-hint">Photographiez chaque face avec une lumière suffisante et sans coque. Formats acceptés : JPG, PNG, WebP et HEIC. Maximum 10 Mo par photo et 15 Mo au total.</p><div class="buyback-photos">
+<fieldset class="buyback-panel"><legend>2 · Les six photos de votre iPhone</legend><p class="buyback-hint">Photographiez chaque face avec une lumière suffisante et sans coque. Formats acceptés : JPG, PNG, WebP et HEIC. Jusqu’à 10 Mo au total pour l’envoi direct ou 15 Mo pour l’e-mail à télécharger.</p><div class="buyback-photos">
 <div class="buyback-photo"><label for="photo-ecran">1. Écran *</label><div class="photo-preview"><img id="preview-ecran" alt="Aperçu : écran" hidden><span id="placeholder-ecran" aria-hidden="true">＋</span></div><input id="photo-ecran" name="photo-ecran" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" data-photo="ecran" required><small id="photo-name-ecran" aria-live="polite">Aucune photo sélectionnée</small></div>
 <div class="buyback-photo"><label for="photo-droite">2. Côté droit *</label><div class="photo-preview"><img id="preview-droite" alt="Aperçu : côté droit" hidden><span id="placeholder-droite" aria-hidden="true">＋</span></div><input id="photo-droite" name="photo-droite" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" data-photo="droite" required><small id="photo-name-droite" aria-live="polite">Aucune photo sélectionnée</small></div>
 <div class="buyback-photo"><label for="photo-gauche">3. Côté gauche *</label><div class="photo-preview"><img id="preview-gauche" alt="Aperçu : côté gauche" hidden><span id="placeholder-gauche" aria-hidden="true">＋</span></div><input id="photo-gauche" name="photo-gauche" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" data-photo="gauche" required><small id="photo-name-gauche" aria-live="polite">Aucune photo sélectionnée</small></div>
@@ -25,14 +29,15 @@
 <div class="field wide"><label for="buybackRepaired">L’iPhone a-t-il déjà été réparé ? *</label><select id="buybackRepaired" name="deja-repare" required><option value="">Choisissez une réponse</option><option value="Non">Non</option><option value="Oui">Oui</option><option value="Je ne sais pas">Je ne sais pas</option></select></div>
 <div class="field wide" id="previousRepairField" hidden><label for="previousRepair">Quelles réparations ont été effectuées ?</label><textarea id="previousRepair" name="reparations-precedentes" maxlength="2000" placeholder="Ex. écran ou batterie remplacés…"></textarea></div>
 </div></fieldset>
-<p class="buyback-hint">Les photos et les informations restent sur votre appareil jusqu’à ce que vous envoyiez votre demande par e-mail.</p>
+<p class="buyback-hint">En choisissant l’envoi direct, vous transmettez vos coordonnées et vos photos à Alexis Réparation via FormSubmit.</p>
 <p class="buyback-error" id="buybackError" role="alert" hidden></p><button class="button buyback-submit" type="submit">Afficher mon prix de reprise →</button>
 <section class="buyback-offer" id="buybackOffer" aria-labelledby="offerHeading" hidden><h2 id="offerHeading" tabindex="-1">Votre estimation de reprise</h2><strong id="buybackAmount"></strong><p id="buybackOfferSummary"></p><p>Montant indicatif à confirmer après vérification de l’appareil. La batterie, le stockage et l’historique de réparation ne modifient pas encore cette estimation.</p>
-<a class="button trade-contact" id="openBuybackEmail" aria-describedby="buybackEmailHint">Ouvrir mon e-mail prérempli →</a>
-<p class="buyback-hint" id="buybackEmailHint">Ajoutez les six photos dans votre messagerie, puis cliquez sur « Envoyer ».</p>
+<button class="button trade-contact" type="submit" id="sendBuyback" aria-describedby="buybackSendHint">Envoyer ma demande avec les six photos →</button>
+<p class="buyback-hint" id="buybackSendHint">Les six photos seront jointes à votre demande. Une vérification anti-spam peut s’afficher.</p>
+<p class="buyback-error" id="buybackSendError" role="alert" hidden></p>
 <button class="button" type="button" id="downloadBuybackEmail" aria-describedby="buybackDownloadHint">Télécharger l’e-mail avec les six photos</button>
 <p class="buyback-hint" id="buybackDownloadHint">Vous voulez les photos déjà jointes ? Téléchargez ce fichier et ouvrez-le dans une application de messagerie compatible.</p>
 <p id="buybackDownloadStatus" role="status" aria-live="polite"></p>
 </section></form><noscript><p>Pour proposer votre iPhone à la reprise, contactez-nous au <a href="tel:+32489431075">0489 43 10 75</a> ou par e-mail à <a href="mailto:alexisreparation@gmail.com">alexisreparation@gmail.com</a>.</p></noscript></main>
 <footer class="site-footer"><div class="shell"><span>© 2026 Alexis Réparation · Réparation Apple indépendante</span><a href="contact.html">Contact · 24h/24, 7j/7</a></div></footer>
-<script src="reprise.js?v=3" defer></script><script src="reprise-demande.js?v=2" defer></script></body></html>
+<script src="reprise.js?v=3" defer></script><script src="reprise-demande.js?v=3" defer></script></body></html>

@@ -4,6 +4,7 @@ const buybackPhotoAngles = [
 ];
 const buybackMaxPhotoSize=10*1024*1024;
 const buybackMaxTotalSize=15*1024*1024;
+const buybackDirectUploadLimit = 10_000_000;
 const buybackRecipient = 'alexisreparation@gmail.com';
 function getBuybackSelection(params){
  const family=params.get('famille'),model=params.get('modele'),state=params.get('etat');
@@ -23,7 +24,7 @@ function buildBuybackSubject(details, selection) {
  const fullName = `${details.prenom} ${details.nom}`.replace(/[\r\n]+/g, ' ').trim();
  return `Reprise — ${selection.model} — ${fullName}`;
 }
-function buildBuybackBody(details,selection,photosAttached){
+function buildBuybackBody(details,selection){
  return [
  'DEMANDE DE REPRISE IPHONE','',
  'Nom : '+details.nom,'Prénom : '+details.prenom,
@@ -35,13 +36,8 @@ function buildBuybackBody(details,selection,photosAttached){
  ...(details.repare==='Oui'?['Réparations précédentes : '+(details.reparations||'Non précisées')]:[]),
  '','Estimation de reprise : '+selection.price+' €',
  'Montant indicatif à confirmer après vérification.',
- '',(photosAttached?'Photos jointes':'Photos à joindre')+' : écran, côté droit, côté gauche, haut, bas et arrière.',''
+ '','Photos jointes : écran, côté droit, côté gauche, haut, bas et arrière.',''
  ].join('\r\n');
-}
-function makeBuybackMailto(details, selection) {
- const subject = encodeURIComponent(buildBuybackSubject(details, selection));
- const body = encodeURIComponent(buildBuybackBody(details, selection, false));
- return `mailto:${buybackRecipient}?subject=${subject}&body=${body}`;
 }
 function buybackBase64(bytes){
  let binary='';
@@ -68,7 +64,7 @@ async function makeBuybackEmail(details,selection,photos){
  'Subject: '+encodeBuybackHeader(subject),'X-Unsent: 1','MIME-Version: 1.0',
  'Content-Type: multipart/mixed; boundary="'+boundary+'"','',
  '--'+boundary,'Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',
- foldBuybackBase64(encoded(buildBuybackBody(details,selection,true)))
+ foldBuybackBase64(encoded(buildBuybackBody(details,selection)))
  ];
  for(const photo of photos){
   const bytes=new Uint8Array(await photo.file.arrayBuffer());
@@ -90,11 +86,12 @@ function initBuybackForm(){
  document.getElementById('buybackSelection').textContent=selection.model+' · '+selection.condition;
  const offer=document.getElementById('buybackOffer'),error=document.getElementById('buybackError');
  const status=document.getElementById('buybackDownloadStatus'),download=document.getElementById('downloadBuybackEmail');
- const openEmail = document.getElementById('openBuybackEmail');
+ const sendButton = document.getElementById('sendBuyback');
+ const sendError = document.getElementById('buybackSendError');
  const battery=document.getElementById('buybackBattery'),unavailable=document.getElementById('batteryUnavailable');
  const repaired=document.getElementById('buybackRepaired');
  const previewUrls=new Map();
- function hideOffer(){offer.hidden=true;status.textContent='';openEmail.removeAttribute('href');}
+ function hideOffer(){offer.hidden=true;status.textContent='';sendError.hidden=true;}
  function displayError(message){error.textContent=message;error.hidden=!message;}
  function getPhotos(){
   return buybackPhotoAngles.map(([key,label])=>({key,label,file:document.getElementById('photo-'+key).files[0]}));
@@ -137,15 +134,33 @@ function initBuybackForm(){
  form.addEventListener('input',hideOffer);
  form.addEventListener('change',hideOffer);
  form.addEventListener('submit',event=>{
-  event.preventDefault();hideOffer();displayError('');
-  if(!form.reportValidity())return;
+  const sending = event.submitter === sendButton;
+  if (!sending) {
+   event.preventDefault();
+   hideOffer();
+  }
+  displayError('');
+  if(!form.reportValidity()){event.preventDefault();return;}
   const photos=getPhotos(),message=checkPhotos(photos);
-  if(message){displayError(message);return;}
+  if(message){event.preventDefault();hideOffer();displayError(message);return;}
   const details=getDetails();
-  if(!details.nom||!details.prenom||!details.telephone||!details.email){displayError('Complétez vos coordonnées.');return;}
+  if(!details.nom||!details.prenom||!details.telephone||!details.email){event.preventDefault();displayError('Complétez vos coordonnées.');return;}
+  if (sending) {
+   if (offer.hidden) {event.preventDefault();return;}
+   const totalSize = photos.reduce((sum, photo) => sum + photo.file.size, 0);
+   if (totalSize > buybackDirectUploadLimit) {
+    event.preventDefault();
+    sendError.textContent = 'Les photos dépassent 10 Mo. Choisissez des versions plus légères ou téléchargez l’e-mail avec les six photos.';
+    sendError.hidden = false;
+    return;
+   }
+   sendError.hidden = true;
+   document.getElementById('buybackMailSubject').value = buildBuybackSubject(details, selection);
+   document.getElementById('buybackMailSummary').value = buildBuybackBody(details, selection);
+   return;
+  }
   document.getElementById('buybackAmount').textContent=new Intl.NumberFormat('fr-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(selection.price);
   document.getElementById('buybackOfferSummary').textContent=selection.model+' · '+selection.condition+' · '+details.stockage;
-  openEmail.href = makeBuybackMailto(details, selection);
   offer.hidden=false;
   document.getElementById('offerHeading').focus();
   offer.scrollIntoView({behavior:'smooth',block:'start'});
