@@ -80,9 +80,8 @@ if(tradeFamily&&tradeModel&&tradeForm){
   const formatted=money.format(value);
   amount.textContent=formatted;
   summary.textContent=model+' · '+condition;
-  const subject='Demande de reprise — '+model;
-  const body='Bonjour,\r\n\r\nJe souhaite proposer mon '+model+' à la reprise.\r\nFamille : iPhone '+tradeFamily.value+'.\r\nÉtat général : '+condition+'.\r\nEstimation affichée : '+formatted+'.\r\n\r\nNom et prénom : \r\nTéléphone : \r\n\r\nMerci.';
-  contact.href='mailto:alexisreparation@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  const selection=new URLSearchParams({famille:tradeFamily.value,modele:model,etat:String(state)});
+  contact.href='reprise-demande.html?'+selection.toString();
  }
  function updateModelOptions(){
   const models=tradeFamilies[tradeFamily.value]||[];
