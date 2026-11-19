@@ -15,6 +15,37 @@
     .service:nth-child(3):before{background:#d6a18e url('macbook.png') center/contain no-repeat}
     .hero h1 em{color:var(--acid)}
     .ticker{color:#111}
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      min-width: 200%;
+      animation: ticker-scroll-right 45s linear infinite;
+    }
+    .ticker-track > span {
+      flex: 1 0 auto;
+    }
+    /* Les deux moitiés de la piste ont le même contenu. */
+    @keyframes ticker-scroll-right {
+      from { transform: translateX(-50%); }
+      to { transform: translateX(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-track {
+        display: block;
+        width: auto;
+        min-width: 0;
+        padding-inline: 20px;
+        white-space: normal;
+        text-align: center;
+        animation: none;
+      }
+      .ticker-track > span {
+        padding: 0;
+      }
+      .ticker-track > [aria-hidden="true"] {
+        display: none;
+      }
+    }
     .service li:before{color:var(--acid)}
     /* Déclinaison noire intégrale. */
     body,.hero,.protocol,.calculator,.contact{background:#0b0b0b;color:#f3f0e9}
