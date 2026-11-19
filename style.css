@@ -19,7 +19,7 @@
     /* Déclinaison noire intégrale. */
     body,.hero,.protocol,.calculator,.contact{background:#0b0b0b;color:#f3f0e9}
     .topbar{border-color:#353535}.lede,.section-top p,.step p{color:#bbb8b0}.stat{border-color:#353535}.stat span{color:#aaa69f}
-    .button{border-color:#f3f0e9}.button.dark{background:#f3f0e9;color:#111}.button:not(.dark):not(:disabled):hover{background:var(--button-hover-background,#f3f0e9);color:var(--button-hover-color,#111)}
+    .button{border-color:#f3f0e9}.button.dark{background:#f3f0e9;color:#111}.button:not(.dark):not(:disabled):hover{background:var(--button-hover-background,#f3f0e9);color:#111}
     .service{background:#121212;border-color:#575757}.service p{color:#b9b5ae}.service:before{background-color:#1a1a1a}.service:nth-child(2):before{background-color:#1a1a1a}.service:nth-child(3):before{background-color:#1a1a1a}
     .calculator{border-block:1px solid #3f3f3f}.selects{background:#151515;border-color:#5f5f5f}.selects label{color:#ddd8cf}select{background:#0b0b0b;color:#f3f0e9;border-color:#5f5f5f}.estimate{background:var(--acid);color:#111}
     .contact{border-top:1px solid #3f3f3f}.info{border-color:#3f3f3f}.foot{color:#9f9b93}
@@ -193,8 +193,9 @@ textarea{min-height:115px;resize:vertical}input:focus,textarea:focus,select:focu
 }
 .hero-tariffs {
   background: #0b0b0b;
-  --button-hover-background: #0b0b0b;
-  --button-hover-color: #f3f0e9;
+}
+.hero-actions .button {
+  --button-hover-background: var(--acid);
 }
 .trade-form .trade-contact {
   --button-hover-background: var(--acid);
