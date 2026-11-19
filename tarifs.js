@@ -472,7 +472,6 @@ function modelTile(label, action, index, image, detail='') {
  return `<button type="button" class="model-tile" data-${action}="${index}">
    <span class="model-thumbnail" data-device-image="${image}" aria-hidden="true">
      <img src="${image}" alt="" loading="lazy">
-     <img class="model-apple-mark" src="logo-apple-blanc.svg" alt="" loading="lazy">
    </span>
    <span class="model-label">${label}${detail?'<small class="model-detail">'+detail+'</small>':''}</span>
    <span class="model-arrow" aria-hidden="true">→</span>

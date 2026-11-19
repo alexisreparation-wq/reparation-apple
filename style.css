@@ -158,25 +158,10 @@ textarea{min-height:115px;resize:vertical}input:focus,textarea:focus,select:focu
 .model-tile{display:flex;align-items:center;gap:14px;min-width:0;min-height:112px;padding:18px;background:#1c1c1c;color:#f3f0e9;border:1px solid var(--acid);border-radius:16px;text-align:left;font:inherit;cursor:pointer}
 .model-tile:hover{background:#252b18}
 .model-tile:focus-visible,.catalogue-back:focus-visible{outline:2px solid var(--acid);outline-offset:4px}
-.model-thumbnail{position:relative;flex:0 0 45px;height:68px;display:flex;justify-content:center;align-items:center}
-.model-thumbnail img{display:block;width:45px;height:68px;object-fit:contain}
-.model-thumbnail .model-apple-mark {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 11px;
-  height: 11px;
-  opacity: .92;
-  filter: drop-shadow(0 0 .4px #ffffff40);
-  transform: translate(-50%, -50%);
-}
-/* Centrage et projection sur le plan de l’écran du MacBook. */
-.model-thumbnail[data-device-image="macbook.png"] .model-apple-mark {
-  left: 39.8%;
-  top: 45.6%;
-  width: 9px;
-  height: 9px;
-  transform: translate(-50%, -50%) matrix(1, -.02, .18, 1.09, 0, 0);
+.model-thumbnail{flex:0 0 var(--model-thumbnail-width,45px);height:68px;display:flex;justify-content:center;align-items:center}
+.model-thumbnail img{display:block;width:var(--model-thumbnail-width,45px);height:68px;object-fit:contain}
+.model-thumbnail:is([data-device-image="ipad.png"], [data-device-image="macbook.png"]) {
+  --model-thumbnail-width: 56px;
 }
 .model-label{font-size:17px;font-weight:700;line-height:1.3;letter-spacing:-.03em;overflow-wrap:anywhere}
 .model-arrow{margin-left:auto;color:var(--acid);font-size:26px;line-height:1;flex-shrink:0}
