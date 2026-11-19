@@ -177,7 +177,7 @@ textarea{min-height:115px;resize:vertical}input:focus,textarea:focus,select:focu
 .trade-layout{display:grid;grid-template-columns:1fr 1fr;gap:65px;align-items:start}
 .trade-intro h1{margin-top:20px}.trade-intro h1 em{color:var(--acid);font-weight:600}
 .trade-intro>p{max-width:510px;line-height:1.7;color:#bbb8b0;font-size:16px}
-.trade-intro .trade-range{display:inline-block;color:var(--acid);font-family:"DM Mono",monospace;font-size:13px;border:1px solid #454545;border-radius:99px;padding:8px 15px}
+.trade-intro .trade-range{display:inline-block;color:var(--acid);font-family:"DM Mono",monospace;font-size:13px;border:1px solid var(--acid);border-radius:99px;padding:8px 15px}
 .trade-intro .trade-caption{font-size:13px;max-width:430px}
 .trade-form{padding:30px;background:#151515;border:1px solid #555;min-width:0}
 .trade-form>label{margin-top:0}.trade-form select{font-size:16px}
