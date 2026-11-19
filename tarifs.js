@@ -469,7 +469,14 @@ function priceCard(title, entries, featured, tag) {
  return `<article class="price-card ${featured?'featured':''}"><div class="tag">${tag}</div><h3>${title}</h3>${entries.map(([repair,price])=>`<div class="rate"><span>${repair}</span><b>${price}</b></div>`).join('')}</article>`;
 }
 function modelTile(label, action, index, image, detail='') {
- return `<button type="button" class="model-tile" data-${action}="${index}"><span class="model-thumbnail" aria-hidden="true"><img src="${image}" alt="" loading="lazy"></span><span class="model-label">${label}${detail?'<small class="model-detail">'+detail+'</small>':''}</span><span class="model-arrow" aria-hidden="true">→</span></button>`;
+ return `<button type="button" class="model-tile" data-${action}="${index}">
+   <span class="model-thumbnail" data-device-image="${image}" aria-hidden="true">
+     <img src="${image}" alt="" loading="lazy">
+     <img class="model-apple-mark" src="logo-apple-blanc.svg" alt="" loading="lazy">
+   </span>
+   <span class="model-label">${label}${detail?'<small class="model-detail">'+detail+'</small>':''}</span>
+   <span class="model-arrow" aria-hidden="true">→</span>
+ </button>`;
 }
 function catalogueShell(title, help, back, body) {
  return `<div class="iphone-catalog"><div class="catalogue-heading">${back}<div><h2 id="catalogueTitle" tabindex="-1">${title}</h2><p>${help}</p></div></div>${body}</div>`;
