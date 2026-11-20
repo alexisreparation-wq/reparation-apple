@@ -57,14 +57,34 @@
   
 
 /* Navigation commune et formulaires */
-html:has(.site-header) {
-  scroll-padding-block-start: var(--site-header-offset, 132px);
+html:has(.site-nav-slot) {
+  scroll-padding-block-start: var(--site-menu-offset, 90px);
 }
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
   background: var(--site-background, #0b0b0b);
+}
+.site-nav-slot {
+  min-height: var(--site-menu-height, 0px);
+}
+.site-nav-slot > .site-nav {
+  justify-content: center;
+}
+.site-nav-slot.is-pinned > .site-nav {
+  position: fixed;
+  top: var(--site-menu-top);
+  inset-inline: 0;
+  width: max-content;
+  max-width: min(1200px, calc(100% - 40px));
+  margin-inline: auto;
+  z-index: 10;
+}
+:where(.site-nav-slot.is-pinned) .site-nav a {
+  background: var(--site-background, #0b0b0b);
+}
+@media (max-width: 760px) {
+  .site-nav-slot.is-pinned > .site-nav {
+    max-width: calc(100% - 30px);
+  }
 }
 @media (max-width: 850px) {
   .site-header .topbar {
@@ -166,7 +186,7 @@ textarea{min-height:115px;resize:vertical}input:focus,textarea:focus,select:focu
 @media(max-width:760px){.form-layout{grid-template-columns:1fr;gap:25px}.form-fields{grid-template-columns:1fr}.field.wide{grid-column:auto}.repair-form{padding:22px}.site-nav{gap:3px;justify-content:flex-start}.site-nav a{font-size:12px;padding:9px}.page-calculator{padding-top:55px}.calc-grid{gap:30px}.topbar .call{font-size:10px;padding:10px}.price-grid{grid-template-columns:1fr}}
 .topbar{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:20px;padding-block:14px}
 .topbar>.logo{grid-column:1;grid-row:1;justify-self:start;margin:0}
-.topbar>.site-nav{grid-column:2;grid-row:1;order:initial;justify-content:center;flex-basis:auto}
+.topbar>:is(.site-nav,.site-nav-slot){grid-column:2;grid-row:1;order:initial;justify-content:center;flex-basis:auto}
 .header-logo{grid-column:3;grid-row:1;justify-self:end;display:block;line-height:0}
 .header-logo img{display:block;width:86px;height:90px;object-fit:contain}
 .iphone-catalog{grid-column:1/-1;min-width:0}
@@ -193,7 +213,7 @@ textarea{min-height:115px;resize:vertical}input:focus,textarea:focus,select:focu
 @media(max-width:1050px){.model-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:800px){.model-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:490px){.model-grid{grid-template-columns:1fr;gap:12px}.model-tile{min-height:95px}.model-label{font-size:18px}.catalogue-heading h2{font-size:23px}}
-@media(max-width:850px){.topbar{grid-template-columns:1fr 1fr;gap:12px}.topbar>.logo{grid-column:1}.header-logo{grid-column:2}.topbar>.site-nav{grid-column:1/-1;grid-row:2;justify-content:center}.header-logo img{width:70px;height:74px}}
+@media(max-width:850px){.topbar{grid-template-columns:1fr 1fr;gap:12px}.topbar>.logo{grid-column:1}.header-logo{grid-column:2}.topbar>:is(.site-nav,.site-nav-slot){grid-column:1/-1;grid-row:2;justify-content:center}.header-logo img{width:70px;height:74px}}
 
 /* Estimation de reprise */
 .trade-section{padding:85px 0 100px;min-height:70vh}
